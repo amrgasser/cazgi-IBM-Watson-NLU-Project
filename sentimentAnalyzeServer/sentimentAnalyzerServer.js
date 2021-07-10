@@ -37,7 +37,7 @@ app.get("/url/emotion", (req,res) => {
         features:{
             emotion:{}
         }
-    }).then((analysisResults)=>res.send(analysisResults.result.emotion.document))
+    }).then((analysisResults)=>res.send(analysisResults.result.emotion.document.emotion))
     .catch(err => console.log(err))
     return
 });
