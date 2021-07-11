@@ -37,7 +37,9 @@ app.get("/url/emotion", (req,res) => {
         features:{
             emotion:{}
         }
-    }).then((analysisResults)=>res.send(analysisResults.result.emotion.document.emotion))
+    }).then((analysisResults)=>{
+        console.log(analysisResults.result);
+        res.send(analysisResults.result.emotion.document.emotion)})
     .catch(err => console.log(err))
     return
 });
@@ -58,11 +60,32 @@ app.get("/url/sentiment", (req,res) => {
 });
 
 app.get("/text/emotion", (req,res) => {
-    return res.send({"happy":"10","sad":"90"});
+    let nlu = getNLUInstance()
+    nlu.analyze({
+        text:req.query.text,
+        features:{
+            emotion:{}
+        }
+    }).then((analysisResults)=>{
+        console.log(analysisResults.result);
+        res.send(analysisResults.result.emotion.document.emotion)})
+    .catch(err => console.log(err))
+    return
 });
 
 app.get("/text/sentiment", (req,res) => {
-    return res.send("text sentiment for "+req.query.text);
+    let nlu = getNLUInstance()
+    nlu.analyze({
+        text:req.query.text,
+        features:{
+            sentiment:{}
+        }
+    }).then((analysisResults)=>{
+    console.log(analysisResults.result.sentiment)
+    res.send(analysisResults.result.sentiment.document)
+    })
+    .catch(err => console.log(err))
+    return
 });
 
 let server = app.listen(8080, () => {
